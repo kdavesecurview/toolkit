@@ -386,7 +386,11 @@ module Kenna
           if @assets.nil? || @assets.empty?
             print_good "No data for #{app_name}. Skipping Upload."
           else
-            kdi_upload(@output_dir, "veracode_#{fname}.json", @kenna_connector_id, @kenna_api_host, @kenna_api_key, false, 3, 2)
+            skip_autoclose = false
+            max_retries = 3
+            kdi_json_version = 2
+            # kdi_upload(@output_dir, "veracode_#{fname}.json", @kenna_connector_id, @kenna_api_host, @kenna_api_key, false, 3, 2)
+            kdi_upload(@output_dir, "veracode_#{fname}.json", @kenna_connector_id, @kenna_api_host, @kenna_api_key, skip_autoclose, max_retries, kdi_json_version)
           end
         end
 
