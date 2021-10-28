@@ -6,7 +6,7 @@ require "base64"
 module Kenna
   module Toolkit
     module QualysWasHelper
-      def qualys_was_get_token(username = 'caway3eb', password = 'UEwtVT6hvs+uRYbhmX3s')
+      def qualys_was_get_token(username = 'username', password = 'Password')
         auth_details = "#{username}:#{password}"
         Base64::encode64(auth_details)
       end
