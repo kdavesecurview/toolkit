@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 
 require "json"
+require 'active_support'
+require 'active_support/core_ext'
 require "rest_client"
 require "base64"
+
+
 module Kenna
   module Toolkit
     module QualysWasHelper
@@ -52,7 +56,7 @@ module Kenna
       end
 
       def qualys_was_get_webapp_findings(webapp_id, token, qualys_was_url = 'qualysapi.qg3.apps.qualys.com/qps/rest/3.0/')
-        print_debug "Getting Webapp Findings For #{webapp_id} \n"
+        print "Getting Webapp Findings For #{webapp_id} \n"
         qualys_was_auth_api = "https://#{qualys_was_url}search/was/finding"
         # auth_headers = { "content-type" => "application/json",
         #            "accept" => "application/json" }
@@ -99,7 +103,7 @@ module Kenna
       end
 
       def qualys_was_get_vuln(qids, token, qualys_was_url = 'qualysapi.qg3.apps.qualys.com/api/2.0/fo/')
-        print "Getting Webapp Findings For #{qids} \n"
+        print "Getting VULN For #{qids} \n"
         qualys_was_auth_api = URI("https://#{qualys_was_url}knowledge_base/vuln/")
         # auth_headers = { "content-type" => "application/json",
         #            "accept" => "application/json" }
@@ -128,14 +132,14 @@ module Kenna
         return nil unless auth_response
 
         begin
-          #response = JSON.parse(auth_response.body)
-        rescue JSON::ParserError
-          #print_error "Unable to process Auth Token response!"
+          response = Hash.from_xml(auth_response.body).to_json
+        rescue
+          print_error "Unable to process XML response!"
         end
 
-        print auth_response.body
+        print response
         print "\n\n \n\n"
-        auth_response.body
+        response
       end
 
       def qualys_was_get_containers(qualys_was_url, token, pagesize, pagenum)

@@ -92,7 +92,7 @@ module Kenna
         end
 
         web_apps_findings.each do |web_app, findings|
-          p "QID Details For WebApp ID: #{web_app}"
+          p "QID's Details For WebApp ID: #{web_app}"
           qids = findings['ServiceResponse']['data'].map{|x| x['Finding']['qid']}
 
           qualys_was_get_vuln(qids, token)
